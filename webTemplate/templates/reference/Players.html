@@ -1,0 +1,536 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>FFA</title>
+  <meta name="description" content="Description of your site goes here">
+  <meta name="keywords" content="keyword1, keyword2, keyword3">
+  <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="page-out">
+<div class="page-in">
+<div class="page">
+<div class="main">
+<div class="header">
+<div class="header-top">
+<h1>Fantasy Sports Analytics</h1>
+</div>
+<div class="header-bottom">
+<h2>Those <strong>crazy</strong> enough to think they can<br><strong>change</strong> the world, <strong>do</strong></h2>
+</div>
+<div class="topmenu">
+<ul>
+  <li style="background: transparent none repeat scroll 0                                                 %; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; padding-left: 0px;"><a href=overview.html><span>Home</span></a></li>
+  <li><a href=overview.html><span>Blog</span></a></li>
+  <li><a href=overview.html><span>Services</span></a></li>
+  <li><a href=overview.html><span>Contact</span></a></li>
+  <li><a href=overview.html><span>Resources</span></a></li>
+  <li><a href=overview.html><span>Partners</span></a></li>
+  <li><a href=overview.html><span>About&nbsp;us</span></a></li>
+</ul>
+</div>
+</div>
+    
+<!-- Main Content -->
+<div class="content">
+<div class="content-left">
+
+<!-- Main Body - Load in from Python -->
+
+<div class="row1">
+<h1 class="title">Player Background</h1>
+<p>Players for this simulation have been <strong>Artificially</strong> derived using the table below.  Each position fits either a <strong>Polynomial</strong> or an <strong>Exponential</strong> (decay) curve.  These curves model player role-off relative to each position. This helps to illustrate the impact of different slopes and decay curves and how they may impact the pre-rankings.<br><br>Observe the positional slope/decay in the <strong>Points vs. Rank-by-Positon Plot</strong> below. This is one of the major factors in determining prerankings.  Most prerank generators assume a linear slope due to compuational or algorithmic limitations.  However our latest prerank engines embrace all the non-linearity that exists in these real-world applications.</p>
+
+<p>&nbsp;</p>
+</div>
+
+<div class="row1">
+<h1 class="title">Player Overview</h1>
+
+<div class="tableone" style="width:360px;height:100px;"><table><tr><td>Points</td>
+<td>QB LN</td>
+<td>QB ES</td>
+<td>QB OS</td>
+<td>QB ED</td>
+</tr>
+<tr><td>LG0</td>
+<td>0.5</td>
+<td>250.0</td>
+<td>125.0</td>
+<td>1.5</td>
+</tr>
+<tr><td>LG1</td>
+<td>0.0</td>
+<td>300.0</td>
+<td>59.0</td>
+<td>2.0</td>
+</tr>
+<tr><td>LG2</td>
+<td>15.0</td>
+<td>0.0</td>
+<td>350.0</td>
+<td>0.0</td>
+</tr>
+</table>
+</div>
+<br>
+<p>&nbsp;</p>
+</div>
+
+<div class="row1">
+<h1 class="title">Player Points Plot</h1>
+<img width=100% src=../../Analysis/TMP/plots/Player_Points_Plot.png height=100%/>
+<p>&nbsp;</p>
+</div>
+
+<div class="row1">
+<h1 class="title">Players for Draft</h1>
+
+<div class="tableone" style="width:360px;height:1525px;"><table><tr><td>name</td>
+<td>pos</td>
+<td>pre</td>
+<td>pts</td>
+<td>vbd</td>
+</tr>
+<tr><td>QB0</td>
+<td>QB</td>
+<td>1.0</td>
+<td>350.0</td>
+<td>8.0</td>
+</tr>
+<tr><td>QB1</td>
+<td>QB</td>
+<td>2.0</td>
+<td>335.0</td>
+<td>10.0</td>
+</tr>
+<tr><td>QB2</td>
+<td>QB</td>
+<td>3.0</td>
+<td>320.0</td>
+<td>12.0</td>
+</tr>
+<tr><td>QB3</td>
+<td>QB</td>
+<td>4.0</td>
+<td>305.0</td>
+<td>14.0</td>
+</tr>
+<tr><td>QB4</td>
+<td>QB</td>
+<td>5.0</td>
+<td>290.0</td>
+<td>16.0</td>
+</tr>
+<tr><td>QB5</td>
+<td>QB</td>
+<td>6.0</td>
+<td>275.0</td>
+<td>20.0</td>
+</tr>
+<tr><td>QB6</td>
+<td>QB</td>
+<td>7.0</td>
+<td>260.0</td>
+<td>22.0</td>
+</tr>
+<tr><td>QB7</td>
+<td>QB</td>
+<td>8.0</td>
+<td>245.0</td>
+<td>27.0</td>
+</tr>
+<tr><td>QB8</td>
+<td>QB</td>
+<td>9.0</td>
+<td>230.0</td>
+<td>36.0</td>
+</tr>
+<tr><td>QB9</td>
+<td>QB</td>
+<td>10.0</td>
+<td>215.0</td>
+<td>48.5</td>
+</tr>
+<tr><td>TE0</td>
+<td>TE</td>
+<td>11.0</td>
+<td>161.0</td>
+<td>17.0</td>
+</tr>
+<tr><td>TE1</td>
+<td>TE</td>
+<td>12.0</td>
+<td>126.0</td>
+<td>24.0</td>
+</tr>
+<tr><td>TE2</td>
+<td>TE</td>
+<td>13.0</td>
+<td>110.0</td>
+<td>31.0</td>
+</tr>
+<tr><td>TE3</td>
+<td>TE</td>
+<td>14.0</td>
+<td>103.0</td>
+<td>34.5</td>
+</tr>
+<tr><td>TE4</td>
+<td>TE</td>
+<td>15.0</td>
+<td>99.0</td>
+<td>38.0</td>
+</tr>
+<tr><td>TE5</td>
+<td>TE</td>
+<td>16.0</td>
+<td>96.0</td>
+<td>40.0</td>
+</tr>
+<tr><td>TE6</td>
+<td>TE</td>
+<td>17.0</td>
+<td>93.0</td>
+<td>43.0</td>
+</tr>
+<tr><td>TE7</td>
+<td>TE</td>
+<td>18.0</td>
+<td>91.0</td>
+<td>44.5</td>
+</tr>
+<tr><td>TE8</td>
+<td>TE</td>
+<td>19.0</td>
+<td>89.0</td>
+<td>46.0</td>
+</tr>
+<tr><td>TE9</td>
+<td>TE</td>
+<td>20.0</td>
+<td>87.0</td>
+<td>48.5</td>
+</tr>
+<tr><td>RB0</td>
+<td>RB</td>
+<td>21.0</td>
+<td>375.0</td>
+<td>1.0</td>
+</tr>
+<tr><td>RB1</td>
+<td>RB</td>
+<td>22.0</td>
+<td>347.0</td>
+<td>2.0</td>
+</tr>
+<tr><td>RB2</td>
+<td>RB</td>
+<td>23.0</td>
+<td>322.0</td>
+<td>3.0</td>
+</tr>
+<tr><td>RB3</td>
+<td>RB</td>
+<td>24.0</td>
+<td>300.0</td>
+<td>4.0</td>
+</tr>
+<tr><td>RB4</td>
+<td>RB</td>
+<td>25.0</td>
+<td>279.0</td>
+<td>5.0</td>
+</tr>
+<tr><td>RB5</td>
+<td>RB</td>
+<td>26.0</td>
+<td>260.0</td>
+<td>6.0</td>
+</tr>
+<tr><td>RB6</td>
+<td>RB</td>
+<td>27.0</td>
+<td>242.0</td>
+<td>7.0</td>
+</tr>
+<tr><td>RB7</td>
+<td>RB</td>
+<td>28.0</td>
+<td>226.0</td>
+<td>9.0</td>
+</tr>
+<tr><td>RB8</td>
+<td>RB</td>
+<td>29.0</td>
+<td>212.0</td>
+<td>11.0</td>
+</tr>
+<tr><td>RB9</td>
+<td>RB</td>
+<td>30.0</td>
+<td>198.0</td>
+<td>13.0</td>
+</tr>
+<tr><td>RB10</td>
+<td>RB</td>
+<td>31.0</td>
+<td>185.0</td>
+<td>15.0</td>
+</tr>
+<tr><td>RB11</td>
+<td>RB</td>
+<td>32.0</td>
+<td>173.0</td>
+<td>18.0</td>
+</tr>
+<tr><td>RB12</td>
+<td>RB</td>
+<td>33.0</td>
+<td>162.0</td>
+<td>19.0</td>
+</tr>
+<tr><td>RB13</td>
+<td>RB</td>
+<td>34.0</td>
+<td>152.0</td>
+<td>21.0</td>
+</tr>
+<tr><td>RB14</td>
+<td>RB</td>
+<td>35.0</td>
+<td>142.0</td>
+<td>23.0</td>
+</tr>
+<tr><td>RB15</td>
+<td>RB</td>
+<td>36.0</td>
+<td>133.0</td>
+<td>25.5</td>
+</tr>
+<tr><td>RB16</td>
+<td>RB</td>
+<td>37.0</td>
+<td>124.0</td>
+<td>30.0</td>
+</tr>
+<tr><td>RB17</td>
+<td>RB</td>
+<td>38.0</td>
+<td>116.0</td>
+<td>34.5</td>
+</tr>
+<tr><td>RB18</td>
+<td>RB</td>
+<td>39.0</td>
+<td>108.0</td>
+<td>41.0</td>
+</tr>
+<tr><td>RB19</td>
+<td>RB</td>
+<td>40.0</td>
+<td>100.0</td>
+<td>48.5</td>
+</tr>
+<tr><td>WR0</td>
+<td>WR</td>
+<td>41.0</td>
+<td>175.0</td>
+<td>25.5</td>
+</tr>
+<tr><td>WR1</td>
+<td>WR</td>
+<td>42.0</td>
+<td>171.0</td>
+<td>28.0</td>
+</tr>
+<tr><td>WR2</td>
+<td>WR</td>
+<td>43.0</td>
+<td>168.0</td>
+<td>29.0</td>
+</tr>
+<tr><td>WR3</td>
+<td>WR</td>
+<td>44.0</td>
+<td>164.0</td>
+<td>32.0</td>
+</tr>
+<tr><td>WR4</td>
+<td>WR</td>
+<td>45.0</td>
+<td>160.0</td>
+<td>33.0</td>
+</tr>
+<tr><td>WR5</td>
+<td>WR</td>
+<td>46.0</td>
+<td>156.0</td>
+<td>37.0</td>
+</tr>
+<tr><td>WR6</td>
+<td>WR</td>
+<td>47.0</td>
+<td>153.0</td>
+<td>39.0</td>
+</tr>
+<tr><td>WR7</td>
+<td>WR</td>
+<td>48.0</td>
+<td>149.0</td>
+<td>42.0</td>
+</tr>
+<tr><td>WR8</td>
+<td>WR</td>
+<td>49.0</td>
+<td>146.0</td>
+<td>44.5</td>
+</tr>
+<tr><td>WR9</td>
+<td>WR</td>
+<td>50.0</td>
+<td>142.0</td>
+<td>48.5</td>
+</tr>
+<tr><td>WR10</td>
+<td>WR</td>
+<td>51.0</td>
+<td>138.0</td>
+<td>51.0</td>
+</tr>
+<tr><td>WR11</td>
+<td>WR</td>
+<td>52.0</td>
+<td>135.0</td>
+<td>52.0</td>
+</tr>
+<tr><td>WR12</td>
+<td>WR</td>
+<td>53.0</td>
+<td>131.0</td>
+<td>53.0</td>
+</tr>
+<tr><td>WR13</td>
+<td>WR</td>
+<td>54.0</td>
+<td>128.0</td>
+<td>54.0</td>
+</tr>
+<tr><td>WR14</td>
+<td>WR</td>
+<td>55.0</td>
+<td>124.0</td>
+<td>55.0</td>
+</tr>
+<tr><td>WR15</td>
+<td>WR</td>
+<td>56.0</td>
+<td>121.0</td>
+<td>56.0</td>
+</tr>
+<tr><td>WR16</td>
+<td>WR</td>
+<td>57.0</td>
+<td>117.0</td>
+<td>57.0</td>
+</tr>
+<tr><td>WR17</td>
+<td>WR</td>
+<td>58.0</td>
+<td>114.0</td>
+<td>58.0</td>
+</tr>
+<tr><td>WR18</td>
+<td>WR</td>
+<td>59.0</td>
+<td>110.0</td>
+<td>59.0</td>
+</tr>
+<tr><td>WR19</td>
+<td>WR</td>
+<td>60.0</td>
+<td>107.0</td>
+<td>60.0</td>
+</tr>
+</table>
+</div>
+<br>
+<p>&nbsp;</p>
+</div>
+
+
+<!-- Buttom -->
+<div class="row1">
+<p align="right"><a href="#" class="more">Back to Top</a></p>
+</div>
+</div>
+
+<!-- SideBare 1 -->
+<div class="content-right">
+<div class="mainmenu">
+<h2 class="sidebar1">Main Menu</h2>
+<ul><li>
+<a href=Results_LG0.html>Results_LG0</a>
+</li>
+<li>
+<a href=Results_LG1.html>Results_LG1</a>
+</li>
+<li>
+<a href=Results_LG2.html>Results_LG2</a>
+</li>
+<li>
+<a href=Overview.html>Overview</a>
+</li>
+<li>
+<a href=Players.html>Players</a>
+</li>
+<li>
+<a href=Summary.html>Summary</a>
+</li>
+</ul>
+
+</div>
+
+<!-- SideBare 2 -->
+<div class="contact">
+<h2 class="sidebar2">Football 2014</h2>
+<div class="contact-detail">
+<p class="green">How will you do this season?</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+<p>&copy; Copyright 2010. Designed by <a target="_blank" href="http://www.htmltemplates.net">htmltemplates.net</a>
+</p>
+<ul>
+  <li style="border-left: medium none;"><a href="index.html"><span>Home</span></a></li>
+  <li><a href="#"><span>About&nbsp;us</span></a></li>
+  <li><a href="#"><span>What's&nbsp;new</span></a></li>
+  <li><a href="#"><span>Services</span></a></li>
+  <li><a href="#"><span>Contact</span></a></li>
+  <li><a href="#"><span>Resources</span></a></li>
+  <li style="padding-right: 0px;"><a href="#"><span>Links</span></a></li>
+</ul>
+</div>
+
+<!--DO NOT Remove The Footer Links-->
+<a href="http://www.htmltemplates.net">
+<img src="images/footnote.gif" class="copyright" alt="html templates"></a>
+
+<!--In partnership with-->
+<a href="http://websitetemplates.net">
+<img src="images/footnote.gif" class="copyright" alt="website templates"></a>
+
+<!--DO NOT Remove The Footer Links-->
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>
+

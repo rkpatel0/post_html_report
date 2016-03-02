@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;PostProcessing/regression/report.py&apos; to &apos;report_gen.py&apos;" description="Rename resource &apos;report.py&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="regression/report.py" name="report_gen.py" stamp="1415059949117" updateReferences="true"/>
+</session>

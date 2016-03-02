@@ -1,0 +1,50 @@
+import pandas as pd
+import webgen.web_report as web
+import regression.database_reader as rd
+import regression.report as autogen
+
+database_path = r'C:\Users\Rishi.Patel\Desktop\compareTo5.0.05.00/'
+#database_path = r'\\lightspeed1\labwork\regression\result\char\LIGHTSPEED1\workspace\work_rpatel\fw\TempCo\fwTempCo3.txt\EVK1900/'
+database_path = r'\\lightspeed1\labwork\regression\result\char\EVK1900/'
+
+files = []
+files.append('TT_9999920140826T133619.csv')  # Koala + Delay + Doherty + 20MHz Waveform Results
+files.append('TT_DVDD1820140826T154539.csv')  # Koala + Delay + Doherty + 20MHz Waveform Results
+
+pdetRepeat = [
+              'currentTemp_degrees', 'Temp', 'PdetIndexA', 'PdetIndexB',\
+              'PdetIndexAFine', 'EdetIndexAFine', 'PmuRffbA', 'PmuRfinA',\
+              'PdetIndexBFine', 'EdetIndexBFine', 'PmuRffbB', 'PmuRfinB',\
+              'PdetDcDacA', 'EdetDcDacA', 'PdetDcDacB', 'EdetDcDacB',\
+              'pmPaInDBm', 'pmPaOutDBm', 'pmPaGainDB',\
+              'pmRffinInDBm', 'pmRffbInDBm',\
+               ]
+
+charSweep = ['s_Waveform','s_Temperature_degC','s_RfinTarget_dBmPeak','s_RffbTarget_dBmPeak','s_Backoff_dB','s_Fw','PROCESS','EVBNUM', 's_Vdd_port_1_Vs']
+charSweep = ['s_Waveform','s_Temperature_degC','s_RfinTarget_dBmPeak','s_Backoff_dB','s_Fw','PROCESS','EVBNUM']
+
+settings = {
+            'test_to_run': ['pmu'],
+            'path_db': database_path,
+            'files': files,
+            'repeat': ['r_RepeatNumWithReset', 'r_RepeatNumWithoutReset', 'TestTimeRepeatNoReset_s'] + pdetRepeat,
+            'sweep': charSweep,
+           }
+
+col_data = { 
+            'channel': 'A',
+            'filter': ['s_Backoff_dB', 's_Vdd_port_1_Vs'],
+ #           'filter': ['s_Backoff_dB'],
+             }
+
+web_report_name = 'test'
+
+oData = rd.MyData(settings)
+oPages = autogen.ReportGen(oData, col_data)
+oReport = web.ReportGen()
+
+oData.retrieve()
+oPages.generate_report()
+oReport.web_report(oPages.data, content=oPages.content, name=web_report_name)
+
+print 'Report Complete!\n'

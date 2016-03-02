@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;PostProcessing/setupSC2200&apos; to &apos;setupSC2200.py&apos;" description="Rename resource &apos;setupSC2200&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="setupSC2200" name="setupSC2200.py" stamp="1414708564349" updateReferences="true"/>
+</session>

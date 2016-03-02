@@ -1,0 +1,10 @@
+MODULES_MANAGER_V2
+CodeTester|C:\Users\Rishi.Patel\Dropbox\Maxim\WebReports\workspace\DataAnalysis\CodeTester.py
+regression.__init__|C:\Users\Rishi.Patel\Dropbox\Maxim\WebReports\workspace\DataAnalysis\regression\__init__.py
+regression.analysis|C:\Users\Rishi.Patel\Dropbox\Maxim\WebReports\workspace\DataAnalysis\regression\analysis.py
+regression.database_reader|C:\Users\Rishi.Patel\Dropbox\Maxim\WebReports\workspace\DataAnalysis\regression\database_reader.py
+regression.report|C:\Users\Rishi.Patel\Dropbox\Maxim\WebReports\workspace\DataAnalysis\regression\report.py
+webgen.__init__|C:\Users\Rishi.Patel\Dropbox\Maxim\WebReports\workspace\DataAnalysis\webgen\__init__.py
+webgen.page_content|C:\Users\Rishi.Patel\Dropbox\Maxim\WebReports\workspace\DataAnalysis\webgen\page_content.py
+webgen.text_to_html|C:\Users\Rishi.Patel\Dropbox\Maxim\WebReports\workspace\DataAnalysis\webgen\text_to_html.py
+webgen.web_report|C:\Users\Rishi.Patel\Dropbox\Maxim\WebReports\workspace\DataAnalysis\webgen\web_report.py

@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>FFA</title>
+  <meta name="description" content="Description of your site goes here">
+  <meta name="keywords" content="keyword1, keyword2, keyword3">
+  <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="page-out">
+<div class="page-in">
+<div class="page">
+<div class="main">
+<div class="header">
+<div class="header-top">
+<h1>Dortey PA with Antares</h1>
+</div>
+<div class="header-bottom">
+</div>
+<div class="topmenu">
+<ul>
+  <li style="background: transparent none repeat scroll 0                                                 %; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; padding-left: 0px;"><a href=overview.html><span>Home</span></a></li>
+  <li><a href=overview.html><span>Blog</span></a></li>
+  <li><a href=overview.html><span>Services</span></a></li>
+  <li><a href=overview.html><span>Contact</span></a></li>
+  <li><a href=overview.html><span>Resources</span></a></li>
+  <li><a href=overview.html><span>Partners</span></a></li>
+  <li><a href=overview.html><span>About&nbsp;us</span></a></li>
+</ul>
+</div>
+</div>
+    
+<!-- Main Content -->
+<div class="content">
+<div class="content-left">
+
+<!-- Main Body - Load in from Python -->
+
+<div class="row1">
+<h1 class="title">How it Works</h1>
+<p>The idea here is to compare the dependency of league settings on pre-ranks.  Essentially, why league settings are very important in ranking players.  There are a few people out there who have really understood this and even less who have actually written about this. The general concensus amoung this group is that players should be drated off of the cost they would pay to get the next-best-player at that position on their next turn.  For example if you were deciding between a RB and QB, then we have two options: (1) RB0 + QB1 or (2) QB0 + RB1.  The Net Cost = RB0 + QB1 - QB0 - RB1 where the polarity of the cost would indicate whom should be drafted first. This is called value based drafting (VBD).<br><br>While this philosophy is 100% correct, here we would like to answer the bigger question, How does one measure this cost iterativily throughout a draft?  What about default pre-rankgs? Here we have developed a very new way of deriving these optimal preranks.  The basic idea is to run search algorithms across each draft option for each team at their given turn in the draft and using machine learning techniques adapt or iteratively converge on the most optimal preranks. <br><br>This unique technique blends many of the latest cutting edge techniques from artificial intelligence and signal processing to give you a customized pre-ranks that is custom catered to fit your league. We hope that this helps give you an edge in your league as well as shed some light on the significance on league settings on pre-rankings and why the two are dependent on each other.</p>
+
+<p>&nbsp;</p>
+</div>
+
+<div class="row1">
+<h1 class="title">League Rosters(s)</h1>
+
+<div class="tableone" style="width:360px;height:50px;"><table><tr><td>Positon</td>
+<td>QB</td>
+<td>RB</td>
+<td>TE</td>
+<td>WR</td>
+</tr>
+<tr><td>LG0</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+</tr>
+</table>
+</div>
+<br>
+<p>&nbsp;</p>
+</div>
+
+<div class="row1">
+<h1 class="title">Team Summary</h1>
+
+<div class="tableone" style="width:600px;height:100px;"><table><tr><td>Info</td>
+<td>A0</td>
+<td>B1</td>
+<td>C2</td>
+<td>D3</td>
+<td>E4</td>
+<td>F5</td>
+<td>G6</td>
+<td>H7</td>
+<td>I8</td>
+<td>J9</td>
+</tr>
+<tr><td>strategy</td>
+<td>rank</td>
+<td>rank</td>
+<td>search</td>
+<td>rank</td>
+<td>rank</td>
+<td>rank</td>
+<td>rank</td>
+<td>rank</td>
+<td>rank</td>
+<td>rank</td>
+</tr>
+<tr><td>tie</td>
+<td>rand</td>
+<td>rand</td>
+<td>rand</td>
+<td>rand</td>
+<td>rand</td>
+<td>rand</td>
+<td>rand</td>
+<td>rand</td>
+<td>rand</td>
+<td>rand</td>
+</tr>
+<tr><td>rank</td>
+<td>pre</td>
+<td>pre</td>
+<td>pre</td>
+<td>pre</td>
+<td>pre</td>
+<td>pre</td>
+<td>pre</td>
+<td>pre</td>
+<td>pre</td>
+<td>pre</td>
+</tr>
+</table>
+</div>
+<br>
+<p>&nbsp;</p>
+</div>
+
+
+<!-- Buttom -->
+<div class="row1">
+<p align="right"><a href="#" class="more">Back to Top</a></p>
+</div>
+</div>
+
+<!-- SideBare 1 -->
+<div class="content-right">
+<div class="mainmenu">
+<h2 class="sidebar1">Main Menu</h2>
+<ul><li>
+<a href=Results_LG0.html>Results_LG0</a>
+</li>
+<li>
+<a href=Results_LG1.html>Results_LG1</a>
+</li>
+<li>
+<a href=Results_LG2.html>Results_LG2</a>
+</li>
+<li>
+<a href=Overview.html>Overview</a>
+</li>
+<li>
+<a href=Players.html>Players</a>
+</li>
+<li>
+<a href=Summary.html>Summary</a>
+</li>
+</ul>
+
+</div>
+
+<!-- SideBare 2 -->
+<div class="contact">
+<h2 class="sidebar2">Football 2014</h2>
+<div class="contact-detail">
+<p class="green">How will you do this season?</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+<p>&copy; Copyright 2010. Designed by <a target="_blank" href="http://www.htmltemplates.net">htmltemplates.net</a>
+</p>
+<ul>
+  <li style="border-left: medium none;"><a href="index.html"><span>Home</span></a></li>
+  <li><a href="#"><span>About&nbsp;us</span></a></li>
+  <li><a href="#"><span>What's&nbsp;new</span></a></li>
+  <li><a href="#"><span>Services</span></a></li>
+  <li><a href="#"><span>Contact</span></a></li>
+  <li><a href="#"><span>Resources</span></a></li>
+  <li style="padding-right: 0px;"><a href="#"><span>Links</span></a></li>
+</ul>
+</div>
+
+<!--DO NOT Remove The Footer Links-->
+<a href="http://www.htmltemplates.net">
+<img src="images/footnote.gif" class="copyright" alt="html templates"></a>
+
+<!--In partnership with-->
+<a href="http://websitetemplates.net">
+<img src="images/footnote.gif" class="copyright" alt="website templates"></a>
+
+<!--DO NOT Remove The Footer Links-->
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>
+

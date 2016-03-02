@@ -1,0 +1,23 @@
+-- VERSION_3
+-- START DISKCACHE
+C:\Users\Rishi.Patel\Dropbox\Maxim\WebReports\workspace\.metadata\.plugins\org.eclipse.core.resources\.projects\Scratch\com.python.pydev.analysis\v1_indexcache
+.v1_indexcache
+fwTests.vcoTests|0|C:\Users\Rishi.Patel\Dropbox\Maxim\WebReports\workspace\Scratch\fwTests\vcoTests.py
+fwTests.__init__|0|C:\Users\Rishi.Patel\Dropbox\Maxim\WebReports\workspace\Scratch\fwTests\__init__.py
+-- END DISKCACHE
+-- START DICTIONARY
+3
+3=vcoTests
+1=fwTests.vcoTests
+2=vcoTests.getVcoFreq
+-- END DICTIONARY
+-- START TREE 1
+1
+vco|1|vcoTests!9@
+-- END TREE
+-- START TREE 2
+3
+ban|1|BAND!2&11@
+get|1|getVcoFreq!3&10@
+plo|1|plotVcoVsLoFreq!3&10@
+-- END TREE

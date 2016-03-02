@@ -1,0 +1,428 @@
+'''
+Created on May 15, 2014
+
+@author: Rishi.Patel
+'''
+
+import pandas as pd
+import seaborn as sns
+import numpy as np
+
+class Analyze(object):
+    '''
+    classdocs
+    '''
+
+
+    def __init__(self, sweepVar, channel, result_var='correctedmxaAclr1Max'):
+        '''
+        Constructor
+        '''
+        
+        self.sweepVar = sweepVar
+        self.channel = channel
+        self._load_constants(result_var)
+        
+    def _load_constants(self, result_var):
+        
+        #self.df = oData.df
+        #self.permuations = oData.
+        self.RESULT_VAR = result_var 
+        self.X_KEEP_PERCENT = .7
+        self.benchmark_lut = {
+                              'correctedmxaAclr1Max': -47,
+                               }
+        
+    def filter_data(self, df, violin_data={}):
+        
+        figs = {}
+        fig_list = []
+        violin_labels = []
+        aclr_var_perm = pd.DataFrame()
+        pout_var_perm = []
+        aclr_mean_df = pd.DataFrame()
+ 
+        # Set stepsize for all permutations
+        if 'TestTimeRepeatNoReset_s' in df.columns:       
+            stepsize = (df['TestTimeRepeatNoReset_s'].iloc[19] - df['TestTimeRepeatNoReset_s'].iloc[0]) / 20
+        else:
+            print 'no time data, defaulting to 1 sec stepsize!\n'
+            stepsize = 1
+
+        permutations = df[self.sweepVar].drop_duplicates()
+        for ith_perm in range(permutations.index.size):
+            
+            settings = permutations.iloc[ith_perm]
+            data = df.copy()
+            
+            # Filter Data for Current Permutation
+            for perm_idx in settings.index:
+                data = data[data[perm_idx] == settings[perm_idx]]
+                
+            # Create a Pivot Table
+            pivot = data.pivot_table(
+                                     rows=['r_RepeatNumWithoutReset'],
+                                     cols=['r_RepeatNumWithReset'],
+                                     values=[self.RESULT_VAR, 'TestTimeRepeatNoReset_s'],
+                                     aggfunc='mean'   # Other options?
+                                     )
+            
+            # Gather Data
+            x_data_max = data['r_RepeatNumWithoutReset'].max()
+            time = np.around(pivot.index.values.astype(np.double), 3) * stepsize
+            pivot.index = time
+            pivot.index.name = 'time'
+            aclr_mean = pivot[self.RESULT_VAR].mean(axis='columns')
+            aclr_var = data[self.RESULT_VAR][data['r_RepeatNumWithoutReset'] >
+                                             x_data_max * self.X_KEEP_PERCENT]
+            
+            # Get Convergence Time
+            stats = aclr_mean[aclr_mean < aclr_var.mean()+1].reset_index()['time'].describe()
+            converge_time = stats['25%'].round()
+            
+            # Save Data
+            violin_labels.append(settings)
+            aclr_var_perm[str(settings)] = aclr_var.reset_index(drop=True)
+            pout_var_perm.append(data['pmPaOutDBm'])
+            
+            aclr_mean.name = aclr_mean_df.columns.size
+            aclr_mean_df = aclr_mean_df.join(aclr_mean, how='outer')
+            
+            # Variance Plots
+            fig = sns.plt.figure()
+            ax = fig.add_subplot(1,1,1)
+            pivot.plot(y=self.RESULT_VAR)
+            ax.plot(time, aclr_mean, lw=3, color='orchid')
+            ax.plot(time, aclr_mean + pivot[self.RESULT_VAR].std(axis='columns'),
+                         'lightskyblue', lw=2)
+            ax.plot(time, aclr_mean - pivot[self.RESULT_VAR].std(axis='columns'),
+                         'lightskyblue', lw=2)
+            
+            # Plot a baseline if baseline exists in LUT
+            if self.RESULT_VAR in self.benchmark_lut:
+                base_line = self.benchmark_lut[self.RESULT_VAR]
+            else:
+                base_line = aclr_mean.mean()
+            ax.plot(time, base_line * np.ones(aclr_mean.size), lw=2, color='red')
+
+            # Plot Dressing
+            #sns.plt.ylim(-54, -40)
+            sns.plt.title(settings.values, fontsize=10)
+            sns.plt.suptitle('Adaptation Penalty vs Time', fontsize=20)
+            sns.plt.xlabel('Time [Seconds]', fontsize=16)
+            sns.plt.ylabel(self.RESULT_VAR, fontsize=16)
+            ax.text(
+            0.99, 0.98, 'Convergence Time: ' + str(converge_time) + ' sec',
+            verticalalignment='top', horizontalalignment='right',
+            transform=ax.transAxes,
+            color='green', fontsize=15)
+            fig_list.append(fig)
+            
+        if violin_data == {}:
+            aclr_var_perm.columns.name = 'Permutation Settings'
+            violin_data['x'] = violin_labels
+        else:
+            aclr_var_perm.columns = violin_data['x'] 
+            aclr_var_perm.columns.name = violin_data['x_name']
+        
+        # Setup figs Info
+        figs['aclr_plots'] = fig_list    
+        figs['aclr_mean'] = self.mean_plot(stepsize, self.RESULT_VAR, violin_data['x'], aclr_mean_df)
+        figs['aclr_var'] = self.violin_plot(aclr_var_perm.dropna(axis=1))
+#        figs['paout_var'] = self.violin_plot(violin_data, pout_var_perm, resultVar='pmPaOutDBm')
+        figs['paout_var'] = sns.plt.figure()
+
+        # TODO: Redo Me!!!!
+        if 's_PAGAIN_ATTN' in df.columns:
+            
+            if 'pmRffinInDBm' not in df.columns:
+                print 'Warning: pm RFIN not in data collected! adding manually'
+                df['pmRffinInDBm'] = df['PmuRfinA'] + 9
+            g = df.groupby('s_PAGAIN_ATTN')
+            
+            rfin_sma_val = g['pmRffinInDBm'].mean().round(2)
+            sInfo = {'x_name': 'RFIN at SMA [dBm]', 'x': rfin_sma_val}
+            figs['aclr_var_rfin_sma'] = self.violin_plot(sInfo, aclr_var_perm)
+        else:
+            figs['aclr_var_rfin_sma'] = sns.plt.figure()
+
+        if 'PdetIndexAFine' in df.columns:
+            figs['pdet'] = self.pdet_plot(df, stepsize, self.channel)
+        
+        return figs
+     
+    def mean_plot(self, stepsize, resultVar, labels, df):
+        
+        if resultVar in self.benchmark_lut:
+            base_line = self.benchmark_lut[resultVar]
+        else:
+            base_line = df.mean()
+        
+        df.index = df.index * stepsize
+        df.plot(lw=2)
+        sns.plt.plot(df.index, base_line * np.ones(df.index.size), lw=2, color='red')
+         
+        fig = sns.plt.gcf()
+        sns.plt.title('Comparing Permutations', fontsize=20)
+        sns.plt.ylabel('{y_axis} Means'.format(y_axis=resultVar), fontsize=20)
+        sns.plt.xlabel('Time [Seconds]', fontsize=16)
+        
+        if type(labels) == pd.DataFrame:
+            sns.plt.legend([name.values for name in labels], fontsize=8)
+        else:
+            sns.plt.legend(labels, fontsize=10)
+        sns.plt.tight_layout()
+        
+        return fig
+    
+    def violin_plot(self, var_data, resultVar='correctedmxaAclr1Max'):
+        
+        if var_data.columns.name == 'Permutation Settings':
+            rot = 45
+            xFs = 12
+        else:
+            rot = 0
+            xFs = 16
+            var_data = var_data.sort(axis=1)
+            
+        if resultVar in self.benchmark_lut:
+            base_line = self.benchmark_lut[resultVar]
+        else:
+            base_line = pd.DataFrame(var_data).mean().mean()
+ 
+        fig = sns.plt.figure()
+        fig.set_size_inches(10,10)
+#        sns.violinplot(var_data, names=info['x'], bw=.5, cut=.25)
+        sns.violinplot(var_data, bw=.5, cut=.25)
+        sns.boxplot(var_data, linewidth=3) 
+        sns.plt.plot(base_line * np.ones(len(var_data)+2), 'red', lw=2)
+        
+        sns.plt.title('Parameter Variance After Convergence', fontsize=20)
+        sns.plt.xlabel(var_data.columns.name, fontsize=24)
+        sns.plt.ylabel('{y_axis} [dBc]'.format(y_axis=resultVar), fontsize=24)
+        locs, x = sns.plt.xticks()
+        sns.plt.setp(x, rotation=rot, fontsize=xFs)
+        
+        if resultVar == 'correctedmxaAclr1Max':
+            ylim_tar = [-54, -42]
+            sns.plt.ylim(ylim_tar[0], ylim_tar[1]) 
+            ylim_cur = sns.plt.ylim()
+            if ylim_cur[0] < ylim_tar[0] - 2:
+                ylim_tar[0] = ylim_cur[0]
+            elif ylim_cur[1] > ylim_tar[1] + 2:
+                ylim_tar[1] = ylim_cur[1]
+            sns.plt.ylim(ylim_tar[0], ylim_tar[1]) 
+        sns.plt.yticks(fontsize=16)
+        sns.plt.tight_layout()
+        
+        return fig
+    
+    def generate_figure(self, df, param):
+
+        fig = sns.plt.figure()
+        if param['y'] not in df.columns or param['x'] not in df.columns:
+            return fig
+        
+        sns.plt.xlabel(param['x'], fontsize=16)
+
+        # Plot the Main Figure
+        ax = fig.add_subplot(1,1,1)
+        ax.plot(df[param['x']], df[param['y']], lw=2, color='Maroon') 
+        ax.set_ylabel(param['y'], fontsize=16, color='Maroon')
+
+        if param['y'] in self.benchmark_lut:
+            ax.plot(df[param['x']], self.benchmark_lut[param['y']] * 
+                    np.ones(len(df[param['x']])), lw=4, color='r')
+        
+        # Plot Second Axis if exist
+        ax2 = ax.twinx()
+        keep = []
+        for y2 in param['y2']:
+            if y2 in df.columns:
+                ax2.plot(df[param['x']], df[y2], lw=2)
+                keep.append(y2)
+        
+        ax2.set_ylabel(param['y2'][0], color='#4C72B0', fontsize=16)
+        ax2.legend(keep, fontsize=10)
+               
+        # Plot Dressing
+        sns.plt.title(param['title'], fontsize=20)
+        sns.plt.tight_layout()      
+    
+        return fig
+    
+    def pdet_plot(self, df, stepsize, chan, x='Seconds'):
+        
+        figs = []
+ 
+        if 'pmRffinInDBm' not in df.columns:
+            print 'adding pmRffinInDBm into df since not available!\n'
+            df['pmRffinInDBm'] = df['PmuRfin' + chan] + 8.9
+
+        df['pmuGain'] =  df['PmuRffb' + chan] -  df['PmuRfin' + chan]
+        df['pmGain'] =  df['pmPaOutDBm'] -  df['pmRffinInDBm']
+        df['Run Number'] = range(df.index.size)
+        df['Seconds'] = np.around(df.index.values.astype(np.double), 3) * stepsize
+        
+        param = {
+                 'x': x,
+                 'y': 'correctedmxaAclr1Max',
+                 'y2': ['currentTemp_degrees'],
+                 'title': 'ACLR vs Temp',
+                 }
+        figs.append(self.generate_figure(df, param))
+
+        param = {
+                 'x': x,
+                 'y': 'correctedmxaAclr1Max',
+                 'y2': ['PmuRfin' + chan],
+                 'title': 'ACLR vs PMU RFIN',
+                 }
+        figs.append(self.generate_figure(df, param)) 
+
+        param = {
+                 'x': x,
+                 'y': 'correctedmxaAclr1Max',
+                 'y2': ['PdetIndex' + chan + 'Fine', 'EdetIndex' + chan + 'Fine'],
+                 'title': 'ACLR vs EDET/PDET'
+                 }
+        figs.append(self.generate_figure(df, param))                                 
+        
+        param = {
+                 'x': x,
+                 'y': 'currentTemp_degrees',
+                 'y2': ['PdetDcOs', 'EdetDcOs'],
+                 'title': 'PDET DCOS vs Case Temp',
+                 }
+        figs.append(self.generate_figure(df, param))
+        
+        param = {
+                 'x': x,
+                 'y': 'currentTemp_degrees',
+                 'y2': ['PdetIndex' + chan + 'Fine', 'EdetIndex' + chan + 'Fine'],
+                 'title': 'PDET TIA vs Case Temp',
+                 }
+        figs.append(self.generate_figure(df, param))
+        
+        param = {
+                 'x': x,
+                 'y': 'pmuGain',
+                 'y2': ['PdetIndex' + chan + 'Fine', 'EdetIndex' + chan + 'Fine'],
+                 'title': 'PDET vs RFPAL Gain',
+                 }
+        figs.append(self.generate_figure(df, param))
+               
+        param = {
+                 'x': x,
+                 'y': 'currentTemp_degrees',
+                 'y2': ['pmuGain'],
+                 'title': 'Case Temp vs RFPAL Gain',
+                 }
+        figs.append(self.generate_figure(df, param))
+        
+        param = {
+                 'x': x,
+                 'y': 'pmRffinInDBm',
+                 'y2': ['PmuRfin' + chan],
+                 'title': 'RFIN: SMA (PM) vs At Pin (PMU)',
+                 }
+        figs.append(self.generate_figure(df, param)) 
+
+        param = {
+                 'x': x,
+                 'y': 'pmPaOutDBm',
+                 'y2': ['PmuRffb' + chan],
+                 'title': 'PA OUT: Power Meter vs RFFB',
+                 }
+        figs.append(self.generate_figure(df, param)) 
+
+        param = {
+                 'x': x,
+                 'y': 'pmuGain',
+                 'y2': ['pmGain'],
+                 'title': 'System Gain: PMU vs Power Meter',
+                 }
+        figs.append(self.generate_figure(df, param)) 
+           
+        param = {
+                 'x': x,
+                 'y': 'correctedmxaAclr1Max',
+                 'y2': ['pmPaOutDBm'],
+                 'title': 'ACLR vs PA Out',
+                 }
+        figs.append(self.generate_figure(df, param))
+        
+        param = {
+                 'x': x,
+                 'y': 'PmuRfin' + chan,
+                 'y2': ['EdetIndex' + chan + 'Fine', 'PdetIndex' + chan + 'Fine'],
+                 'title': 'PDET vs RFIN'
+                 }
+        figs.append(self.generate_figure(df, param))
+        
+        param = {
+                 'x': x,
+                 'y': 'PdetIndex' + chan,
+                 'y2': ['pmuGain'],
+                 'title': 'PDET Atten vs PA Gain'
+                 }
+        figs.append(self.generate_figure(df, param))
+
+        param = {
+                 'x': x,
+                 'y': 'EdetIndex' + chan + 'Fine',
+                 'y2': ['EdetDcOs'],
+                 'title': 'EDET: TIA vs DCOS'
+                 }
+        figs.append(self.generate_figure(df, param))
+        
+        param = {
+                 'x': x,
+                 'y': 'PdetIndex' + chan + 'Fine',
+                 'y2': ['PdetDcOs'],
+                 'title': 'PDET: TIA vs DCOS',
+                 }
+        figs.append(self.generate_figure(df, param))
+        
+        param = {
+                 'x': x,
+                 'y': 'pmuGain',
+                 'y2': ['PdetDcOs', 'EdetDcOs'],
+                 'title': 'GAIN vs DCOS',
+                 }
+        figs.append(self.generate_figure(df, param))
+        
+        param = {
+                 'x': x,
+                 'y':  'PmuRfin' + chan,
+                 'y2': ['PdetDcOs', 'EdetDcOs'],
+                 'title': 'RFIN vs DCOS',
+                 }
+        figs.append(self.generate_figure(df, param))
+        
+        param = {
+                 'x': x,
+                 'y':  'correctedmxaAclr1Max',
+                 'y2': ['PdetDcOs', 'EdetDcOs'],
+                 'title': 'ACLR vs DCOS',
+                 }
+        figs.append(self.generate_figure(df, param))
+        
+        param = {
+                 'x': x,
+                 'y':  'pmPaOutDBm',
+                 'y2': ['PdetDcOs', 'EdetDcOs'],
+                 'title': 'ACLR vs DCOS',
+                 }
+        figs.append(self.generate_figure(df, param))
+
+        param = {
+                 'x': 's_PAGAIN_ATTN',
+                 'y': 'pmRffinInDBm',
+                 'y2': ['PmuRfin' + chan],
+                 'title': 'PA ATTN vs RFIN (@ PIN and SMA)',
+                 }
+        figs.append(self.generate_figure(df, param))
+                                                                                            
+        return figs
+        

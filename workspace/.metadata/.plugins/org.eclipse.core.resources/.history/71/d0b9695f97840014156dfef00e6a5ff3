@@ -1,0 +1,79 @@
+import regression.database as db
+import regression.report_gen as gen
+import seaborn as sns
+import webgen.report as reb
+
+# ------------------------------------------------------------------------------
+# Configurable Parameters
+# ------------------------------------------------------------------------------
+
+# Files to Load
+logfiles = [
+#           'FFF_107A20141212T112651.csv',    # Nice fw/wf/repeat test sweep
+#           'FFF_73A20141210T191955.csv',     # Has issue since repeated same test multi-times
+           'FFF_107A20141212T213011.csv',     # Has issue since repeated same test multi-times           
+            ]
+EVKTYPE = 'EVK1900'
+WEB_REP_NAME = 'FFF_107A_SOAK' + '_' + EVKTYPE
+
+
+char_sweep = ['s_Vdd_port_1_Vs', 's_RffbTarget_dBmPeak']
+char_sweep = ['s_Vdd_port_1_Vs','s_RfinTarget_dBmPeak', 's_RffbTarget_dBmPeak']
+#char_sweep = ['s_Temperature_degC', 's_Vdd_port_1_Vs', 's_RfinTarget_dBmPeak', 's_RffbTarget_dBmPeak']
+
+# ------------------------------------------------------------------------------
+database = {
+            'file_names': logfiles,
+            'path': r'\\lightspeed1\labwork\regression\result\char/' + EVKTYPE + '/'
+#            'path': r'C:\Users\Rishi.Patel\Desktop/',
+            }
+
+# Parameters to Plot during report
+derate = [
+          'correctedmxaAclr1Max',
+#          'correctedmxaAclr2Max',
+          'pmPaOutDBm',
+          'PmuRfin{CH}',
+          'pmRffinInDBm',
+          'PmuRffb{CH}',
+          'pmRffbInDBm',
+          'PmuRfGain{CH}',
+          'pmLoopGainInDBm',
+          'PdetDcDac{CH}',
+          'EdetDcDac{CH}',
+          'PdetIndex{CH}',
+          'PdetIndex{CH}Fine',
+          'EdetIndex{CH}Fine',
+          'CorrIDac{CH}',
+          'CorrQDac{CH}',
+          'Temp',
+          'currentTemp_degrees',
+          'mxgPower',
+          'rfOutAttn',
+          'Error0',
+          'Warning0',
+          ]
+
+analysis = {
+            'channel': 'A',
+            'filter': ['s_Waveform', 's_Backoff_dB', 's_RfinTarget_dBmPeak', 's_RffbTarget_dBmPeak'],
+#            'filter': ['s_Waveform', 's_Backoff_dB'],
+            'plots': ['pmu', 'pdet'],
+            'sweep': char_sweep,
+            'derate': derate,
+            }
+
+oData = db.Reader(database)
+oGen = gen.Generate(analysis)
+oWeb = reb.MaximIntegrated({'save_path': r'C:\Users\Rishi.Patel\iDocuments\Maxim\webreports\SC2200\/'})
+
+data = oData.fetch_datalogs()
+#data['TempCoDelayLine'] = data['pmRffbInDBm'] - data['PmuRfinA']
+#data['PmuRfGainA'] = data['PmuRffbA'] - data['PmuRfinA']
+#data = data[data['s_Fw'] == '5.0.09.01']
+#data = data[data['s_RfinTarget_dBmPeak'] != 4.5]
+#data = data[data['s_Backoff_dB'] == 0.5]
+#data.index = range(data.index.size)
+
+pages = oGen.create_pages(data, database)
+oWeb.generate_report(pages, WEB_REP_NAME)

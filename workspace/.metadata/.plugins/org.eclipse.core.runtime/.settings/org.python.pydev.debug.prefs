@@ -1,0 +1,2 @@
+INITIAL_INTERPRETER_CMDS=\#print('%s %s' % (sys.executable or sys.platform, sys.version))\r\nimport sys\r\nimport pandas as pd\r\nimport numpy as np\r\nimport seaborn as sns\r\n\r\ndf \= pd.DataFrame(np.arange(12).reshape(4,3))\r\nx \= np.arange(12)\r\ny \= x*x;
+eclipse.preferences.version=1
